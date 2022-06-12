@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      font-family: Roboto;
+    }
+  </style>
+</head>
+<body>
+<h1>Mongodb vs Mongoose Speed Test</h1>
+<p id="time" ></p>
+
+<button class="mongodb">Fetch Using Mongodb</button>
+<br>
+<button class="mongoose">Fetch Using Mongoose</button>
+
+
+<script type="module">
+  
+  let mongodb = document.querySelector(".mongodb")
+  let mongoose = document.querySelector(".mongoose")
+  
+  let title = "Click a Button"
+
+  mongodb.addEventListener("click", async function (e){
+    title = "Data Fetch with Mongodb"
+    let response = await fetch("/api/mongodb").then(rsp => rsp.json());
+    let byte = JSON.stringify(response.data).length
+    let sizeMessage = ""
+    if(byte > 1024){
+      sizeMessage = (byte / 1024) + "kb"
+    } else {
+      sizeMessage = byte + "byte"
+    }
+    document.getElementById("time").innerHTML = `
+      <h1>${title}</h1>
+      <p>Time Consume ${response.time}ms fetch size ${sizeMessage}</p>
+     `
+  })
+  
+  mongoose.addEventListener("click", async function (e){
+    title = "Data Fetch with Mongoose"
+    let response = await fetch("/api/mongoose").then(rsp => rsp.json());
+    let byte = JSON.stringify(response.data).length
+    let sizeMessage = ""
+    if(byte > 1024){
+      sizeMessage = (byte / 1024) + "kb"
+    } else {
+      sizeMessage = byte + "byte"
+    }
+    document.getElementById("time").innerHTML = `
+      <h1>${title}</h1>
+      <p>Time Consume ${response.time}ms fetch size ${sizeMessage}</p>
+     `
+  })
+  
+</script>
+
+</body>
+</html>
+
+
